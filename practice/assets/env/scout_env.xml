@@ -1,0 +1,98 @@
+<mujoco model="combined_arena">
+    <compiler angle="degree" meshdir="meshes/" inertiagrouprange="0 0"/>
+    <option gravity="1 1 -9.81"/>
+    <size nconmax="5000" njmax="5000"/>
+
+    <!-- Asset Definitions -->
+    <asset>
+        <!-- Skybox and Floor Textures -->
+        <texture builtin="gradient" height="256" rgb1=".9 .9 1." rgb2=".2 .3 .4" type="skybox" width="256"/>
+        <texture file="../textures/light-wood.png" type="2d" name="texplane"/>
+        <material name="floorplane" reflectance="0.01" shininess="0.0" specular="0.0" texrepeat="2 2" texture="texplane" texuniform="true"/>
+        
+        <!-- Scout Robot Assets -->
+        <mesh name="base_link" file="/home/lee/simulation/practice/meshes/base_link.stl"/>
+        <mesh name="wheel_type1" file="/home/lee/simulation/practice/meshes/wheel_type1.stl"/>
+        <mesh name="wheel_type2" file="/home/lee/simulation/practice/meshes/wheel_type2.stl"/>
+        
+        <!-- Target Line -->
+        <material name="line_material" rgba="0.0 0.0 1.0 1"/>
+    </asset>
+
+    <!-- Visual Settings -->
+    <visual>
+        <map znear="0.001" />
+    </visual>
+    
+    <!-- World Body Definitions -->
+    <worldbody>
+        <!-- Floor -->
+        <geom condim="3" material="floorplane" name="floor" pos="0 0 0" size="5 5 .125" type="plane" euler="0 0 0"/>
+        
+        <geom name="line" type="cylinder" fromto="-5 0 0.05 5 0 0.05" size="0.01" material="line_material"/>
+
+        <!-- Scout Robot Definitions -->
+        <body name="scout_base" pos="2 3 0.240">
+            <!-- Base link -->
+            <joint type="free"/>
+            <!-- Base link slightly elevated to avoid intersection with floor -->
+            <geom name="base_link_geom" type="mesh" mesh="base_link" pos="0 0 0" euler="90 0 0" rgba="1 1 1 0.5"/>
+            <!-- Inertial properties -->
+            <inertial pos="0 0 0" mass="50" diaginertia="2.288641 5.103976 3.431465"/>
+            <!-- Scout wheel definitions -->
+            <!-- Front Right Wheel -->
+            <body name="front_right_wheel" pos="0.249 0.29153 -0.0702">
+                <inertial pos="0 0 0" mass="8" diaginertia="0.1171 0.1361 0.1171"/>
+                <joint name="front_right_wheel_joint" type="hinge" pos="0 0 0" axis="0 1 0"/>
+                <geom name="front_right_wheel_geom" type="mesh" mesh="wheel_type1" pos="0 0 0" euler="90 0 0" rgba="1 1 1 0.5" friction="4.0 0.001 0.0004"/>
+                <!-- Axis Visualization -->
+                <geom name="front_right_wheel_x_axis" type="cylinder" fromto="0 0 0 0.1 0 0" size="0.005" rgba="1 0 0 1"/>
+                <geom name="front_right_wheel_y_axis" type="cylinder" fromto="0 0 0 0 0.1 0" size="0.005" rgba="0 1 0 1"/>
+                <geom name="front_right_wheel_z_axis" type="cylinder" fromto="0 0 0 0 0 0.1" size="0.005" rgba="0 0 1 1"/>
+            </body>
+            <!-- Front Left Wheel -->
+            <body name="front_left_wheel" pos="0.249 -0.29153 -0.0702">
+                <inertial pos="0 0 0" mass="8" diaginertia="0.1171 0.1361 0.1171"/>
+                <joint name="front_left_wheel_joint" type="hinge" pos="0 0 0" axis="0 1 0"/>
+                <geom name="front_left_wheel_geom" type="mesh" mesh="wheel_type2" pos="0 0 0" euler="-90 0 0" rgba="1 1 1 0.5" friction="4.0 0.001 0.0004"/>
+                <geom name="front_left_wheel_x_axis" type="cylinder" fromto="0 0 0 0.1 0 0" size="0.005" rgba="1 0 0 1"/>
+                <geom name="front_left_wheel_y_axis" type="cylinder" fromto="0 0 0 0 0.1 0" size="0.005" rgba="0 1 0 1"/>
+                <geom name="front_left_wheel_z_axis" type="cylinder" fromto="0 0 0 0 0 0.1" size="0.005" rgba="0 0 1 1"/>
+            </body>
+            <!-- Rear Left Wheel -->
+            <body name="rear_left_wheel" pos="-0.249 -0.29153 -0.0702">
+                <inertial pos="0 0 0" mass="8" diaginertia="0.1171 0.1361 0.1171"/>
+                <joint name="rear_left_wheel_joint" type="hinge" pos="0 0 0" axis="0 1 0"/>
+                <geom name="rear_left_wheel_geom" type="mesh" mesh="wheel_type1" pos="0 0 0" euler="-90 0 0" rgba="1 1 1 0.5" friction="4.0 0.001 0.0004"/>
+                <geom name="rear_left_wheel_x_axis" type="cylinder" fromto="0 0 0 0.1 0 0" size="0.005" rgba="1 0 0 1"/>
+                <geom name="rear_left_wheel_y_axis" type="cylinder" fromto="0 0 0 0 0.1 0" size="0.005" rgba="0 1 0 1"/>
+                <geom name="rear_left_wheel_z_axis" type="cylinder" fromto="0 0 0 0 0 0.1" size="0.005" rgba="0 0 1 1"/>
+            </body>
+            <!-- Rear Right Wheel -->
+            <body name="rear_right_wheel" pos="-0.249 0.29153 -0.0702">
+                <inertial pos="0 0 0" mass="8" diaginertia="0.1171 0.1361 0.1171"/>
+                <joint name="rear_right_wheel_joint" type="hinge" pos="0 0 0" axis="0 1 0"/>
+                <geom name="rear_right_wheel_geom" type="mesh" mesh="wheel_type2" pos="0 0 0" euler="90 0 0" rgba="1 1 1 0.5" friction="4.0 0.001 0.0004"/>
+                <geom name="rear_right_wheel_x_axis" type="cylinder" fromto="0 0 0 0.1 0 0" size="0.005" rgba="1 0 0 1"/>
+                <geom name="rear_right_wheel_y_axis" type="cylinder" fromto="0 0 0 0 0.1 0" size="0.005" rgba="0 1 0 1"/>
+                <geom name="rear_right_wheel_z_axis" type="cylinder" fromto="0 0 0 0 0 0.1" size="0.005" rgba="0 0 1 1"/>
+            </body>
+        </body>
+
+        <!-- Camera Definitions -->
+        <!-- front view -->
+        <camera mode="fixed" name="frontview" pos="1.6 0 1.45" quat="0.56 0.43 0.43 0.56"/>
+        <!-- bird view -->
+        <camera mode="fixed" name="birdview" pos="-0.2 0 3.0" quat="0.7071 0 0 0.7071"/>
+        <!-- agent view -->
+        <camera mode="fixed" name="agentview" pos="0.5 0 1.35" quat="0.653 0.271 0.271 0.653"/>
+        <!-- side view -->
+        <camera mode="fixed" name="sideview" pos="-0.05651774593317116 1.2761224129427358 1.4879572214102434" quat="0.009905065491771751 0.006877963156909582 0.5912228352893879 0.806418094001364"/>
+    </worldbody>
+    <actuator>
+        <velocity name="front_right_wheel_motor" joint="front_right_wheel_joint" kv="10"/>
+        <velocity name="front_left_wheel_motor" joint="front_left_wheel_joint" kv="10"/>
+        <velocity name="rear_right_wheel_motor" joint="rear_right_wheel_joint" kv="10"/>
+        <velocity name="rear_left_wheel_motor" joint="rear_left_wheel_joint" kv="10"/>
+    </actuator>
+</mujoco>

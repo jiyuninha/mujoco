@@ -1,0 +1,35 @@
+<mujoco model="scout_wheel">
+    <compiler angle="degree"/>
+    <option timestep="0.002"/>
+
+    <!-- Vehicle Geometries -->
+    <asset>
+        <mesh name="wheel_type2" file="/home/lee/simulation/practice/meshes/wheel_type1.dae"/>
+    </asset>
+
+    <!-- World body -->
+    <worldbody>
+        <!-- Scout wheel type2 -->
+        <body name="front_left_wheel" pos="0 0 0">
+            <!-- Inertial properties -->
+            <inertial pos="0 0 0" mass="8" diaginertia="0.1171 0.1361 0.1171"/>
+            
+            <!-- Visual geometry -->
+            <geom name="front_left_wheel_geom" type="mesh" mesh="wheel_type2" pos="0 0 0"/>
+            
+            <!-- Collision geometry -->
+            <geom name="front_left_wheel_collision" type="cylinder" size="0.08265 0.16459" pos="0 0 0" euler="1.5708 0 0">
+                <friction>20</friction>
+                <solref>0.02 1</solref>
+                <solimp>0.9 0.9 0.01</solimp>
+            </geom>
+            
+            <!-- Joint -->
+            <joint name="front_left_wheel_joint" type="hinge" pos="0 0 0" axis="0 -1 0"/>
+        </body>
+    </worldbody>
+
+    <actuator>
+        <!-- Define actuators here if needed -->
+    </actuator>
+</mujoco>
